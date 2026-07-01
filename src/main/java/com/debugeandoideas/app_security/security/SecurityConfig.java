@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+        http.addFilterBefore(new ApiKeyFilter(),BasicAuthenticationFilter.class); //esto se coloco para ser el primer filtro en ser llamado para validar el header antes del BasicAuthenticationFilter
         var requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
 

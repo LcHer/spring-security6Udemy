@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@EnableWebSecurity //esto ya es opcional en la version 6 de spring security
+@EnableWebSecurity (debug = true)//esto ya es opcional en la version 6 de spring security
 public class AppSecurityApplication  {
 
 
