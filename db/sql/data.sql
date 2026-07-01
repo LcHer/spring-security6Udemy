@@ -1,5 +1,15 @@
 -----------data-------------
 
-insert into customers (email, pwd, rol) VALUES
-                                                    ('admin@email.com', '{noop}to_be_encoded', 'admin'),
-                                                    ('user@email.com', '{noop}to_be_encoded', 'user');
+insert into customers (email, pwd) VALUES
+                                       ('account@custom.com', 'to_be_encoded'),
+                                       ('cards@custom.com', 'to_be_encoded'),
+                                       ('loans@custom.com', 'to_be_encoded'),
+                                       ('balance@custom.com', 'to_be_encoded');
+
+
+
+insert into roles(role_name, description, id_customer) VALUES
+        ('ROLE_ADMIN', 'can view account endpoint', 1),
+        ('ROLE_ADMIN', 'can view cards endpoint', 2),
+      ('ROLE_USER', 'can view loans endpoint', 3),
+     ('ROLE_USER', 'can view balance endpoint', 4);

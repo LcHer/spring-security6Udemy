@@ -3,6 +3,7 @@ package com.debugeandoideas.app_security.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
+//@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -28,8 +30,17 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/loans","/balance","/accounts","/cards").authenticated()
-                        .anyRequest().permitAll())
+                //auth.requestMatchers("/loans","/balance","/accounts","/cards")
+                        auth
+                                /* ESTA SECCION ES PARA TRABAJAR CON AUTORITIES
+                                .requestMatchers("/loans").hasAuthority("VIEW_LOANS")
+                                .requestMatchers("/balance").hasAuthority("VIEW_BALANCE")
+                                .requestMatchers("/cards").hasAuthority("VIEW_CARDS")
+                                //.requestMatchers("/accounts").hasAnyAuthority("VIEW_ACCOUNT","VIEW_CARDS")
+                                .anyRequest().permitAll())*/
+                .requestMatchers("/loans","/balance").hasRole("USER")
+                .requestMatchers("/accounts","/cards").hasRole("ADMIN")
+                .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         http.cors(cors-> corsConfigurationSource());

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +32,10 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
        final var customerPwdRaw = customerPwd.startsWith("{") ? customerPwd : "{noop}" + customerPwd; //este prefijo solo se usa para que no se ocupe el bycrypt del password ya que Spring solo lo requiere encriptado
 
        if (passwordEncoder.matches(pwd,customerPwdRaw)){
-           final var authorities = Collections.singletonList(new SimpleGrantedAuthority(customer.getRole()));
+           final var roles = customer.getRoles();
+           final var authorities = roles.stream()
+                   .map(role-> new SimpleGrantedAuthority(role.getName()))
+                   .collect(Collectors.toList());
            return new UsernamePasswordAuthenticationToken(username,pwd,authorities);
        }else{
            throw new BadCredentialsException("Invalid credentials");
